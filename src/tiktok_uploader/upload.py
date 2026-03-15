@@ -369,14 +369,15 @@ def complete_upload_form(
         _remove_split_window(page)
     try:
         # Dismiss joyride spotlight overlay if it appears
-        joyride_spotlight = page.locator("div.react-joyride__spotlight")
+        joyride_spotlight = page.locator(f"xpath={"//div[contains(@class, 'react-joyride__spotlight')]"}")
         logger.debug(green("Finding joyride_spotlight to skip"))
+        joyride_spotlight.wait_for(state="visible", timeout=5000)
         if joyride_spotlight.is_visible(timeout=1000):
             logger.debug(green("Skipping joyride_spotlight to skip"))
             joyride_spotlight.click()
     except Exception:
-        pass
-    _set_interactivity(page, **kwargs)
+        logger.exception("Error while trying to skip joyride spotlight overlay")
+    # _set_interactivity(page, **kwargs)
     _set_description(page, description)
     if visibility != "everyone":
         _set_visibility(page, visibility)
@@ -765,15 +766,6 @@ def _post_video(page: Page) -> None:
     """
     logger.debug(green("Clicking the post button"))
 
-    try:
-        overlay = page.locator("div.TUXModal-overlay")
-        if overlay.is_visible(timeout=1000):
-            close_btn = page.locator("div.jsx-2910096029.common-modal-close")
-            if close_btn.is_visible(timeout=1000):
-                close_btn.click()
-    except Exception:
-        pass
-
     post_btn = page.locator(f"xpath={config.selectors.upload.post}")
     try:
 
@@ -787,7 +779,21 @@ def _post_video(page: Page) -> None:
 
         post_btn.scroll_into_view_if_needed()
         post_btn.click()
+        try:
+    
+            logger.debug(green("Clicking the post button"))
+            # overlay = page.locator("div.TUXModal-overlay")
+            overlay = page.locator(f"xpath={"//div[contains(@class, 'TUXModal-overlay')]"}")
+            overlay.wait_for(state="visible", timeout=5000)
+            if overlay.is_visible(timeout=5000):
+                # close_btn = page.locator("div.common-modal-close")
+                close_btn = page.locator(f"xpath={"//div[contains(@class, 'common-modal-close')]"}")
 
+                close_btn.wait_for(state="visible", timeout=5000)
+                if close_btn.is_visible(timeout=5000):
+                    close_btn.click()
+        except Exception:
+            logger.debug("There are no overlay before posting")
     except Exception:
         logger.debug(green("Trying to click on the button again (fallback)"))
         page.evaluate('document.querySelector(".TUXButton--primary").click()')
