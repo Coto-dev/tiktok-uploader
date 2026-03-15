@@ -766,9 +766,11 @@ def _post_video(page: Page) -> None:
     logger.debug(green("Clicking the post button"))
 
     try:
+        logger.debug(green("Finding bad video overlay"))
         overlay = page.locator("div.TUXModal-overlay")
         if overlay.is_visible(timeout=1000):
-            close_btn = page.locator("div.jsx-2910096029.common-modal-close")
+            logger.debug(green("Skipping bad video overlay"))
+            close_btn = page.locator("div.common-modal-close")
             if close_btn.is_visible(timeout=1000):
                 close_btn.click()
     except Exception:
