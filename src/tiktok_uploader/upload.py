@@ -376,7 +376,7 @@ def complete_upload_form(
             logger.debug(green("Skipping joyride_spotlight to skip"))
             joyride_spotlight.click()
     except Exception:
-        logger.exception("Error while trying to skip joyride spotlight overlay")
+        logger.debug("There is no joyride spotlight overlay")
     # _set_interactivity(page, **kwargs)
     _set_description(page, description)
     if visibility != "everyone":
