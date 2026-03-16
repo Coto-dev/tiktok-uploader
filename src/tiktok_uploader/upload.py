@@ -369,7 +369,9 @@ def complete_upload_form(
         _remove_split_window(page)
     try:
         # Dismiss joyride spotlight overlay if it appears
-        joyride_spotlight = page.locator(f"xpath={"//div[contains(@class, 'react-joyride__spotlight')]"}")
+        joyride_spotlight = page.locator(
+            "xpath=//div[contains(@class, 'react-joyride__spotlight')]"
+        )
         logger.debug(green("Finding joyride_spotlight to skip"))
         joyride_spotlight.wait_for(state="visible", timeout=5000)
         if joyride_spotlight.is_visible(timeout=1000):
@@ -783,11 +785,11 @@ def _post_video(page: Page) -> None:
     
             logger.debug(green("Clicking the post button"))
             # overlay = page.locator("div.TUXModal-overlay")
-            overlay = page.locator(f"xpath={"//div[contains(@class, 'TUXModal-overlay')]"}")
+            overlay = page.locator(f"xpath=//div[contains(@class, 'TUXModal-overlay')]")
             overlay.wait_for(state="visible", timeout=5000)
             if overlay.is_visible(timeout=5000):
                 # close_btn = page.locator("div.common-modal-close")
-                close_btn = page.locator(f"xpath={"//div[contains(@class, 'common-modal-close')]"}")
+                close_btn = page.locator(f"xpath=//div[contains(@class, 'common-modal-close')]")
 
                 close_btn.wait_for(state="visible", timeout=5000)
                 if close_btn.is_visible(timeout=5000):

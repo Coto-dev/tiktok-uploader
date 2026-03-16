@@ -1,7 +1,6 @@
 """Gets a video from the internet and uploads it"""
 
 from random import choice
-from matplotlib.pylab import choice
 
 from tiktok_uploader.upload import TikTokUploader
 
@@ -13,5 +12,5 @@ if __name__ == "__main__":
 
 # single video
 uploader = TikTokUploader(cookies='www.tiktok.com_cookies.txt', browser="chrome", headless=False)
-uploader.upload_video('newVideo123.mp4', description='#fyp')
+uploader.upload_video('0.mp4', description='#fyp')
 
